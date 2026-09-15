@@ -1,0 +1,25 @@
+{
+  "name": "My Story Shelf",
+  "short_name": "Story Shelf",
+  "description": "A cozy storybook app for kids with reading, painting, and word games.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FFF8EC",
+  "theme_color": "#FF8FA3",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
