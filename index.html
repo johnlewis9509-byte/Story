@@ -200,6 +200,18 @@
   .story-text .word { transition: background .15s ease, border-radius .15s ease; padding: 1px 2px; }
   .story-text .word.active { background: #FFCD3C; border-radius: 6px; box-shadow: 0 0 0 2px #FFCD3C; }
   .story-text .word.moral-word { font-weight: 800; }
+  .story-page-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+  .story-page-num { font-size: 13px; color: var(--ink-soft); white-space: nowrap; font-family: 'Baloo 2', sans-serif; font-weight: 700; }
+  .action-btn.words {
+    width: 100%; margin-top: 12px; border: none; border-radius: 16px;
+    background: #EDE4FF; color: #6B3FA0; font-family: 'Baloo 2', sans-serif;
+    font-weight: 700; font-size: 15px; padding: 12px; cursor: pointer;
+  }
+  .read-badge {
+    display: inline-block; font-size: 11px; font-weight: 700; color: #2E9E4F;
+    background: #E3F7E8; padding: 3px 9px; border-radius: 999px; margin-left: 8px;
+    font-family: 'Baloo 2', sans-serif;
+  }
 
   .actions { display: flex; gap: 12px; margin-top: 20px; }
   .action-btn {
@@ -542,8 +554,12 @@
       <button class="mode-btn" id="mathModeTables" data-mode="tables">✖️ Times Tables</button>
     </div>
     <div id="tableSelectPanel" style="display:none;">
-      <p class="table-select-hint">Pick one or more tables to practice:</p>
+      <p class="table-select-hint">Tap to pick one or more tables to practice:</p>
       <div class="table-chip-row" id="tableChipRow"></div>
+      <div style="display:flex; gap:10px; margin: 4px 0 16px;">
+        <button class="mode-btn" id="selectAllTablesBtn" style="flex:none; padding:8px 14px; font-size:13px;">Select All</button>
+        <button class="mode-btn" id="clearAllTablesBtn" style="flex:none; padding:8px 14px; font-size:13px;">Clear All</button>
+      </div>
       <button class="action-btn read" id="startTablesBtn" style="width:auto;padding:12px 22px;">Start ▶</button>
     </div>
     <div class="match-score" id="mathScore"></div>
@@ -589,11 +605,32 @@
     </div>
     <div class="illustration" id="illustration"></div>
     <div class="story-card">
-      <h2 class="story-title" id="storyTitle"></h2>
+      <div class="story-page-row">
+        <h2 class="story-title" id="storyTitle"></h2>
+        <span class="story-page-num" id="storyPageNum"></span>
+      </div>
       <div class="story-text" id="storyText"></div>
       <div class="actions">
         <button class="action-btn read" id="readBtn">🔊 Read to me</button>
-        <button class="action-btn shuffle" id="shuffleBtn">🔀 New story</button>
+        <button class="action-btn shuffle" id="prevStoryBtn">⬅ Previous</button>
+        <button class="action-btn shuffle" id="shuffleBtn">⏭ Skip / New story</button>
+      </div>
+      <button class="action-btn words" id="newWordsBtn" style="display:none;">📚 Learn New Words</button>
+    </div>
+  </div>
+
+  <!-- VOCAB / NEW WORDS GAME -->
+  <div class="full-overlay hidden" id="vocabOverlay">
+    <div class="gate-card" style="max-width:420px;">
+      <h2 style="margin-top:0;">📚 New Words</h2>
+      <p class="table-select-hint" id="vocabProgress"></p>
+      <div class="match-emoji" id="vocabWord" style="font-size:30px; margin-bottom:6px;"></div>
+      <p style="text-align:center; color:var(--ink-soft); margin-top:0;">What does this word mean?</p>
+      <div class="match-options" id="vocabOptions"></div>
+      <div id="vocabDone" style="display:none; text-align:center;">
+        <div class="stars" id="vocabStars"></div>
+        <p>You learned all the new words! ⭐</p>
+        <button class="action-btn read" id="vocabCloseBtn" style="width:auto;padding:14px 26px;">Back to story</button>
       </div>
     </div>
   </div>
@@ -621,6 +658,39 @@ const STORIES = [
   { cat:'animals', title:"Mira the Mouse and the Big Cheese",
     image:"https://th.bing.com/th/id/OIG4.xBjUidqwRXsgWkPDxpXr?pid=ImgGn",
     text:"Mira the mouse found a huge block of cheese in the barn. It was too big to carry alone. She called her friends: two mice, a sparrow, and a beetle. Together, they pushed and rolled the cheese all the way home. That night, everyone shared a feast. Mira learned that big things are easy with friends." },
+  { cat:'animals', title:"The Tortoise Who Taught Patience",
+    text:"Young rabbits mocked old Tortoise Gogo for his slow pace through the meadow every morning. Gogo never argued back; he simply kept moving steadily toward wherever he needed to go. When a sudden flood came, panicked rabbits scattered in every direction, wasting precious time. Gogo, moving steady and sure, reached higher ground first and helped guide the rabbits to safety. Slow, steady effort often wins when panic makes others waste time." },
+  { cat:'animals', title:"Leo the Lion and the Thorn",
+    text:"A tiny mouse named Chuki once begged mighty Leo not to eat her, promising she'd help him someday. Leo laughed at the idea but let her go anyway. Weeks later, a thorn trapped Leo's paw in painful vines, and his roars brought no other lion to help. Tiny Chuki gnawed through the vines patiently until Leo was free. Even the smallest friend can offer help that saves the day." },
+  { cat:'animals', title:"The Elephant Who Remembered Kindness",
+    text:"As a calf, Bela the elephant was freed from a hunter's trap by a young shepherd boy who asked for nothing in return. Years passed, and Bela grew into a massive elephant, while the boy became a poor old farmer facing a flood that threatened his home. Bela, recognizing him instantly, used her strength to rebuild his house. Kindness given freely is never truly forgotten." },
+  { cat:'animals', title:"Chintu the Squirrel's Big Harvest",
+    text:"While other squirrels played all autumn, Chintu worked steadily each day, storing acorns little by little for winter. His friends teased him for missing their games in the sun. When the harsh winter came and food grew scarce, Chintu's friends had nothing, but he happily shared his full stores with everyone. Quiet discipline today can become generosity you're proud of tomorrow." },
+  { cat:'animals', title:"The Wise Old Owl's Riddle",
+    text:"Forest animals came to Owl with a dispute over who deserved the last berry bush during a drought. Instead of choosing a winner, Owl asked them to work together, watering the bush daily until it grew enough berries for everyone. The animals, expecting a simple judgment, learned something far more valuable instead. Cooperation grows more abundance than competition ever can." },
+  { cat:'animals', title:"Bruno the Bear Shares His Cave",
+    text:"A fierce storm left a family of rabbits homeless right outside grumpy Bruno's cave entrance. Bruno usually preferred solitude, but seeing the shivering rabbits, he grudgingly let them stay until the storm passed. Their cheerful chatter, strange to him at first, slowly became comforting company through the long winter. Opening your home to others can also open space in your heart." },
+  { cat:'animals', title:"The Clever Crow and the Pitcher",
+    text:"A thirsty crow found a pitcher with water too low for his beak to reach, no matter how he tilted it. Instead of giving up in frustration, he thought carefully and began dropping small pebbles inside, one by one. The water slowly rose until he could finally drink. Patience and clever thinking solve problems that frustration cannot." },
+  { cat:'animals', title:"Mira the Monkey Learns to Share",
+    text:"Mira found the forest's last ripe mango and climbed high to eat it alone, away from her hungry troop. Sitting by herself, the mango somehow tasted less sweet than she remembered. She climbed back down and split it among the youngest monkeys instead, keeping only a small piece for herself. Shared joy tastes far sweeter than anything enjoyed alone." },
+  { cat:'animals', title:"The Proud Peacock's Lesson",
+    text:"A peacock named Neel constantly boasted about his colorful feathers, mocking the plain brown sparrows nearby. During a sudden hailstorm, Neel's heavy, beautiful tail slowed him down badly while nimble little sparrows found shelter easily. The sparrows, without a grudge, guided injured Neel to safety under a thick bush. True worth is measured by kindness, not by appearances." },
+  { cat:'animals', title:"Rusty the Fox and the Trapped Rabbit",
+    text:"Rusty the fox found a rabbit stuck in a hunter's snare, an easy meal within his reach without any effort. But something made him pause — the rabbit's frightened eyes reminded him of his own kits at home. Rusty carefully chewed through the rope instead, freeing the rabbit completely. The strongest choice isn't always the easy one, but the right one." },
+  { cat:'animals', title:"The Herd That Stood Together",
+    text:"A lone wolf circled a herd of deer, searching for the weakest one to separate from the group. Instead of scattering in fear as usual, the deer remembered an old doe's advice and stood in a tight circle, facing outward together. The wolf, unable to isolate anyone, eventually gave up and left hungry. Unity turns frightened individuals into an unbreakable group." },
+  { cat:'animals', title:"Coco the Parrot's Honest Words",
+    text:"Coco the parrot could repeat any phrase she heard, and her owner once asked her to lie to a worried customer about a broken item. Coco, though just a bird, refused to repeat the lie, squawking the truth instead until the owner apologized to the customer honestly. Choosing honesty over comfort is a lesson worth learning at any size." },
+  { cat:'animals', title:"The Little Ant's Big Heart",
+    text:"A grasshopper mocked a tiny ant for carrying crumbs twice her size across the garden all summer long. When a sudden rainstorm flooded the grasshopper's shelter, it was the same tiny ant, along with her colony, who carried him to their dry, well-stocked tunnel. Big hearts often live inside the smallest creatures." },
+  { cat:'animals', title:"Zara the Zebra's Stripes of Courage",
+    text:"Young Zara was teased for having unusually faint stripes, unlike the bold patterns of other zebras in her herd. During a lion's ambush, her faint stripes blended strangely with the tall dry grass, confusing the predator just long enough for the herd to escape safely. Being different can sometimes be a hidden strength, not a weakness." },
+  { cat:'animals', title:"The Dolphin Who Saved a Stranger",
+    text:"A young dolphin named Nila noticed a swimmer struggling against strong currents far from any boat or shore. Though dolphins usually stayed away from unfamiliar humans, Nila swam close and gently pushed the exhausted swimmer toward shore until he was safe. True kindness doesn't wait until you know someone before helping." },
+  { cat:'animals', title:"The Goat Who Climbed Alone",
+    text:"Every goat in the herd insisted the steep northern cliff was impossible to climb, too dangerous even to attempt. Young Gauri disagreed quietly and practiced climbing small rocks every single day when no one was watching. Months later, during a drought, only Gauri could reach the lush grass atop that cliff. Quiet, patient practice can prepare you for the day others need you most." },
+
 
   // FAIRY TALES
   { cat:'fairy', title:"The Princess  Who Loved Mud",
@@ -704,6 +774,45 @@ const STORIES = [
   { cat:'hindi', lang:'hi-IN', title:"दो दोस्त और एक पतंग",
     text:"राज और सिमी अच्छे दोस्त थे। उनके पास सिर्फ एक पतंग थी। राज ने कहा, 'तुम पहले उड़ाओ।' सिमी ने कहा, 'नहीं, तुम पहले उड़ाओ।' फिर दोनों ने मिलकर एक साथ पतंग उड़ाई। पतंग आसमान में ऊँची उड़ी और दोनों खूब हँसे। उन्होंने सीखा कि जब दोस्त मिलकर खेलते हैं, तो मज़ा दोगुना हो जाता है।" },
 ];
+
+/* ---------------- VOCAB / NEW WORDS GAME DATA ---------------- */
+/* Keyed by story title. 2 challenging words per story, each with a
+   correct meaning and two plausible wrong meanings for the quiz. */
+const VOCAB_BANK = {
+  "The Lost Compass": [{ word:"shattered", correct:"broke suddenly into pieces", wrong:["grew very shiny","became very heavy"] }, { word:"guided", correct:"showed the way to someone", wrong:["hid from someone","ran away quickly"] }],
+  "The River Crossing": [{ word:"current", correct:"the flowing movement of water", wrong:["a type of fruit","a loud noise"] }, { word:"supporting", correct:"helping to hold something up", wrong:["watching from far away","painting a picture"] }],
+  "Cave of Echoes": [{ word:"terrified", correct:"extremely scared", wrong:["very sleepy","extremely happy"] }, { word:"glittering", correct:"sparkling with light", wrong:["moving very slowly","making a loud sound"] }],
+  "The Mountain Promise": [{ word:"steep", correct:"rising or falling very sharply", wrong:["smooth and flat","covered in flowers"] }, { word:"ached", correct:"hurt with a dull, steady pain", wrong:["felt very cold","sparkled brightly"] }],
+  "Island of Whispers": [{ word:"shipwrecked", correct:"left stranded after a ship sinks or crashes", wrong:["given a prize for sailing","afraid of water"] }, { word:"resourceful", correct:"good at finding clever ways to solve problems", wrong:["very tired","unable to speak"] }],
+  "The Desert Star": [{ word:"caravan", correct:"a group traveling together, often with animals or wagons", wrong:["a type of musical instrument","a small boat"] }, { word:"horizon", correct:"the line where the sky meets the land or sea", wrong:["a kind of desert plant","a loud warning sound"] }],
+  "Bridge of Vines": [{ word:"swayed", correct:"moved slowly side to side", wrong:["grew taller instantly","made a loud crashing sound"] }, { word:"frightened", correct:"feeling afraid", wrong:["feeling very proud","feeling extremely hungry"] }],
+  "The Lantern Trail": [{ word:"separated", correct:"kept apart from others", wrong:["joined closely together","painted a bright color"] }, { word:"honestly", correct:"in a truthful way", wrong:["in a very loud way","in a secretive way"] }],
+  "Storm on Silver Lake": [{ word:"capsized", correct:"turned over in the water", wrong:["sailed very fast","was repaired quickly"] }, { word:"exhausting", correct:"making someone very tired", wrong:["making something colorful","making a loud noise"] }],
+  "The Hidden Waterfall": [{ word:"untouched", correct:"not changed or used by anyone", wrong:["broken into pieces","painted a new color"] }, { word:"humbly", correct:"without bragging or showing off", wrong:["very loudly","very quickly"] }],
+  "Race to the Summit": [{ word:"summit", correct:"the very top of a mountain", wrong:["the bottom of a valley","a kind of race car"] }, { word:"hesitate", correct:"to pause because you're unsure", wrong:["to run very fast","to shout loudly"] }],
+  "The Map with No End": [{ word:"confused", correct:"not able to understand clearly", wrong:["very excited","extremely tired"] }, { word:"destination", correct:"the place someone is traveling to", wrong:["a type of old map","a kind of treasure"] }],
+  "Jungle of a Thousand Steps": [{ word:"ancient", correct:"very old, from a long time ago", wrong:["brand new","made of gold"] }, { word:"exhausted", correct:"extremely tired", wrong:["extremely happy","extremely hungry"] }],
+  "The Cliffhanger Rescue": [{ word:"tangled", correct:"twisted together in a messy way", wrong:["painted bright colors","completely empty"] }, { word:"secured", correct:"made safe or firmly fixed", wrong:["hidden away","thrown far away"] }],
+  "Snowbound": [{ word:"blizzard", correct:"a severe snowstorm with strong winds", wrong:["a warm sunny day","a quiet forest"] }, { word:"dwindling", correct:"gradually becoming less", wrong:["growing very quickly","staying exactly the same"] }],
+  "The Whistling Canyon": [{ word:"legends", correct:"old stories passed down over time", wrong:["maps of the stars","types of birds"] }, { word:"investigated", correct:"looked into something carefully to learn the truth", wrong:["ran away quickly","sang a song loudly"] }],
+  "The Tortoise Who Taught Patience": [{ word:"mocked", correct:"made fun of someone unkindly", wrong:["helped someone kindly","taught someone a skill"] }, { word:"panicked", correct:"felt sudden, uncontrollable fear", wrong:["felt very calm","felt very proud"] }],
+  "Leo the Lion and the Thorn": [{ word:"mighty", correct:"very strong and powerful", wrong:["very small","very quiet"] }, { word:"gnawed", correct:"bit or chewed steadily", wrong:["painted carefully","jumped quickly"] }],
+  "The Elephant Who Remembered Kindness": [{ word:"massive", correct:"extremely large in size", wrong:["extremely small","extremely quiet"] }, { word:"recognizing", correct:"realizing you know someone or something", wrong:["forgetting someone completely","avoiding someone"] }],
+  "Chintu the Squirrel's Big Harvest": [{ word:"harvest", correct:"the gathering of food or crops", wrong:["a type of storm","a deep sleep"] }, { word:"discipline", correct:"the ability to keep working at something steadily", wrong:["a type of game","a loud sound"] }],
+  "The Wise Old Owl's Riddle": [{ word:"dispute", correct:"a disagreement or argument", wrong:["a kind of celebration","a type of gift"] }, { word:"cooperation", correct:"working together toward a shared goal", wrong:["competing against each other","hiding from each other"] }],
+  "Bruno the Bear Shares His Cave": [{ word:"solitude", correct:"the state of being alone", wrong:["a big celebration","a loud argument"] }, { word:"grudgingly", correct:"done in an unwilling, reluctant way", wrong:["done very happily","done very quickly"] }],
+  "The Clever Crow and the Pitcher": [{ word:"pitcher", correct:"a container used for holding and pouring liquid", wrong:["a type of bird","a musical instrument"] }, { word:"frustration", correct:"the feeling of being upset when something is hard", wrong:["the feeling of great joy","the feeling of being sleepy"] }],
+  "Mira the Monkey Learns to Share": [{ word:"troop", correct:"a group of monkeys or animals living together", wrong:["a type of fruit","a musical song"] }, { word:"indulgence", correct:"enjoying something fully, often alone", wrong:["sharing something equally","giving something away"] }],
+  "The Proud Peacock's Lesson": [{ word:"boasted", correct:"talked with too much pride about oneself", wrong:["stayed quiet and shy","helped someone in need"] }, { word:"nimble", correct:"able to move quickly and easily", wrong:["very slow and heavy","very loud and noisy"] }],
+  "Rusty the Fox and the Trapped Rabbit": [{ word:"snare", correct:"a trap used to catch an animal", wrong:["a type of song","a soft blanket"] }, { word:"hesitated", correct:"paused before acting, feeling unsure", wrong:["acted immediately without thinking","fell asleep suddenly"] }],
+  "The Herd That Stood Together": [{ word:"isolate", correct:"to separate one from the group", wrong:["to bring everyone together","to make something louder"] }, { word:"unbreakable", correct:"impossible to break apart", wrong:["very fragile and weak","very colorful"] }],
+  "Coco the Parrot's Honest Words": [{ word:"squawking", correct:"making a loud, harsh bird sound", wrong:["whispering softly","singing a gentle tune"] }, { word:"marketplace", correct:"a place where people buy and sell things", wrong:["a quiet forest path","a tall mountain"] }],
+  "The Little Ant's Big Heart": [{ word:"colony", correct:"a large group of insects living together", wrong:["a type of flower","a musical instrument"] }, { word:"capability", correct:"the ability to do something", wrong:["a type of weather","a kind of food"] }],
+  "Zara the Zebra's Stripes of Courage": [{ word:"ambush", correct:"a surprise attack from a hidden position", wrong:["a friendly greeting","a type of dance"] }, { word:"blended", correct:"mixed in so well it was hard to notice", wrong:["stood out brightly","made a loud sound"] }],
+  "The Dolphin Who Saved a Stranger": [{ word:"struggling", correct:"having a hard time doing something difficult", wrong:["resting peacefully","celebrating happily"] }, { word:"unfamiliar", correct:"not known or recognized", wrong:["very well known","extremely friendly"] }],
+  "The Goat Who Climbed Alone": [{ word:"insisted", correct:"said firmly and repeatedly", wrong:["whispered quietly","forgot completely"] }, { word:"drought", correct:"a long period with little or no rain", wrong:["a heavy rainstorm","a cold snowy season"] }],
+
+};
 
 /* ---------------- ILLUSTRATIONS ---------------- */
 function illustrationFor(cat){
@@ -846,9 +955,26 @@ document.querySelectorAll('.bnav-btn[data-tab]').forEach(btn => {
 });
 
 document.getElementById('openPaint').onclick = () => { showSection('color'); initColorGame(); };
-document.getElementById('openMatch').onclick = () => { showSection('match'); startMatchGame(); };
-document.getElementById('openMath').onclick = () => { showSection('math'); startMathGame(); };
-document.getElementById('openSilent').onclick = () => { showSection('silent'); startSilentGame(); };
+document.getElementById('openMatch').onclick = () => {
+  showSection('match');
+  try { startMatchGame(); } catch (e) { console.error('Word Match failed to start, retrying:', e); startMatchGame(); }
+};
+document.getElementById('openMath').onclick = () => {
+  showSection('math');
+  // Always reset to a clean Add & Subtract state, so a leftover Times Tables
+  // selection screen from a previous visit can never leave this game "stuck".
+  mathMode = 'as';
+  document.getElementById('mathModeAS').classList.add('active');
+  document.getElementById('mathModeTables').classList.remove('active');
+  document.getElementById('tableSelectPanel').style.display = 'none';
+  document.getElementById('mathPlayArea').style.display = 'block';
+  document.getElementById('mathDone').style.display = 'none';
+  try { startMathGame(); } catch (e) { console.error('Number Fun failed to start, retrying:', e); startMathGame(); }
+};
+document.getElementById('openSilent').onclick = () => {
+  showSection('silent');
+  try { startSilentGame(); } catch (e) { console.error('Silent Letter failed to start, retrying:', e); startSilentGame(); }
+};
 document.getElementById('colorBackBtn').onclick = () => showSection('play');
 document.getElementById('matchBackBtn').onclick = () => { clearTimeout(matchAdvanceTimer); showSection('play'); };
 document.getElementById('mathBackBtn').onclick = () => { clearTimeout(mathAdvanceTimer); showSection('play'); };
@@ -885,14 +1011,32 @@ function renderTiles(){
   });
 }
 
+/* ---------------- READ-TRACKING (localStorage) ---------------- */
+let readTitles = new Set();
+try {
+  readTitles = new Set(JSON.parse(localStorage.getItem('storyshelf_read') || '[]'));
+} catch (e) { readTitles = new Set(); }
+
+function isStoryRead(title){ return readTitles.has(title); }
+function markStoryRead(title){
+  if (readTitles.has(title)) return;
+  readTitles.add(title);
+  try { localStorage.setItem('storyshelf_read', JSON.stringify([...readTitles])); } catch (e) {}
+}
+
 /* ---------------- READER LOGIC ---------------- */
 const categoryQueues = {}; // catId -> { order: [storyIndices], pos: number }
+const storyHistory = [];   // stack of stories shown this session, for the Previous button
+let historyPos = -1;
 
 function buildQueue(catId, avoidFirstTitle){
   const list = STORIES.filter(s => s.cat === catId);
-  let order = shuffleArr(list.map((_, i) => i));
-  // avoid immediately repeating the story we just finished, when possible
-  if (avoidFirstTitle && list.length > 1 && list[order[0]].title === avoidFirstTitle) {
+  // Prefer stories the child hasn't finished yet; once everything in a
+  // category has been read, fall back to the full list so it can be replayed.
+  const unreadIdx = list.map((s, i) => i).filter(i => !isStoryRead(list[i].title));
+  const pool = unreadIdx.length ? unreadIdx : list.map((_, i) => i);
+  let order = shuffleArr(pool);
+  if (avoidFirstTitle && order.length > 1 && list[order[0]].title === avoidFirstTitle) {
     order.push(order.shift());
   }
   categoryQueues[catId] = { order, pos: 0 };
@@ -912,7 +1056,21 @@ function getNextStory(catId){
 
 function openCategory(catId){
   buildQueue(catId);
-  showStory(getNextStory(catId));
+  goToStory(getNextStory(catId));
+}
+
+/* Pushes a new story onto the history stack (used by category open / skip / vocab-complete). */
+function goToStory(story){
+  storyHistory.splice(historyPos + 1); // drop any "forward" history
+  storyHistory.push(story);
+  historyPos = storyHistory.length - 1;
+  showStory(story);
+}
+
+function goToPreviousStory(){
+  if (historyPos <= 0) return;
+  historyPos--;
+  showStory(storyHistory[historyPos]);
 }
 
 function showStory(story){
@@ -928,6 +1086,18 @@ function showStory(story){
   storyTitleEl.textContent = story.title;
   renderStoryText(story.text);
   readBtn.textContent = '🔊 Read to me';
+
+  // Page number, based on the story's fixed position within its category (stable across shuffles)
+  const catList = STORIES.filter(s => s.cat === story.cat);
+  const pageNum = catList.indexOf(story) + 1;
+  document.getElementById('storyPageNum').textContent =
+    `Story ${pageNum} of ${catList.length}` + (isStoryRead(story.title) ? ' · ✓ Read' : '');
+
+  document.getElementById('prevStoryBtn').disabled = historyPos <= 0;
+  document.getElementById('prevStoryBtn').style.opacity = historyPos <= 0 ? '0.45' : '1';
+
+  const hasVocab = !!VOCAB_BANK[story.title];
+  document.getElementById('newWordsBtn').style.display = hasVocab ? 'block' : 'none';
 
   showSection('reader');
 }
@@ -1016,7 +1186,7 @@ function highlightNextWord(rate){
 function startSpeaking(){
   const utter = new SpeechSynthesisUtterance(currentStory.text);
   utter.lang = currentStory.lang || 'en-US';
-  utter.rate = 0.68;   // slowed down for young/early readers
+  utter.rate = 0.55;   // slowed down further for young/early readers
   utter.pitch = 1.0;
 
   const voice = pickBestVoice(utter.lang);
@@ -1027,7 +1197,10 @@ function startSpeaking(){
   clearTimeout(highlightTimer);
 
   utter.onstart = () => highlightNextWord(utter.rate);
-  utter.onend = () => stopSpeaking();
+  utter.onend = () => {
+    stopSpeaking();
+    if (currentStory) markStoryRead(currentStory.title);
+  };
   utter.onerror = () => stopSpeaking();
 
   window.speechSynthesis.cancel();
@@ -1053,7 +1226,7 @@ function toggleRead(){
     window.speechSynthesis.resume();
     highlightWordStartedAt = Date.now();
     highlightCurrentDuration = highlightRemainingMs;
-    highlightTimer = setTimeout(() => highlightNextWord(0.68), highlightRemainingMs);
+    highlightTimer = setTimeout(() => highlightNextWord(0.55), highlightRemainingMs);
     speechState = 'speaking';
     readBtn.textContent = '⏸ Pause reading';
   }
@@ -1262,6 +1435,76 @@ function playTryAgainSound(){
   } catch (e) { /* audio not available, fail silently */ }
 }
 
+/* ---------------- NEW WORDS (VOCAB) MINI-GAME ---------------- */
+let vocabWords = [], vocabIndex = 0, vocabScore = 0;
+
+function openVocabGame(){
+  if (!currentStory) return;
+  const words = VOCAB_BANK[currentStory.title];
+  if (!words || !words.length) return;
+  vocabWords = words;
+  vocabIndex = 0;
+  vocabScore = 0;
+  document.getElementById('vocabDone').style.display = 'none';
+  document.getElementById('vocabWord').style.display = 'block';
+  document.getElementById('vocabOptions').style.display = 'grid';
+  document.getElementById('vocabOverlay').classList.remove('hidden');
+  showVocabRound();
+}
+
+function closeVocabGame(){
+  document.getElementById('vocabOverlay').classList.add('hidden');
+}
+
+function showVocabRound(){
+  if (vocabIndex >= vocabWords.length) { finishVocabGame(); return; }
+  const round = vocabWords[vocabIndex];
+  document.getElementById('vocabProgress').textContent = `Word ${vocabIndex + 1} of ${vocabWords.length}`;
+  document.getElementById('vocabWord').textContent = round.word;
+
+  const options = shuffleArr([round.correct, ...round.wrong]);
+  const optionsEl = document.getElementById('vocabOptions');
+  optionsEl.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'match-option';
+    btn.textContent = opt;
+    btn.onclick = () => {
+      const allBtns = optionsEl.querySelectorAll('.match-option');
+      allBtns.forEach(b => b.disabled = true);
+      if (opt === round.correct) {
+        btn.classList.add('correct');
+        vocabScore++;
+        celebrate(true);
+        setTimeout(() => { vocabIndex++; showVocabRound(); }, 1400);
+      } else {
+        btn.classList.add('wrong');
+        [...allBtns].find(b => b.textContent === round.correct).classList.add('correct');
+        celebrate(false);
+        setTimeout(() => { vocabIndex++; showVocabRound(); }, 1800);
+      }
+    };
+    optionsEl.appendChild(btn);
+  });
+}
+
+function finishVocabGame(){
+  document.getElementById('vocabWord').style.display = 'none';
+  document.getElementById('vocabOptions').style.display = 'none';
+  document.getElementById('vocabDone').style.display = 'block';
+  document.getElementById('vocabStars').textContent =
+    '⭐'.repeat(vocabScore) + '☆'.repeat(vocabWords.length - vocabScore);
+  // Completing the word game for a story counts as finishing it.
+  if (currentStory) {
+    markStoryRead(currentStory.title);
+    document.getElementById('storyPageNum').textContent =
+      document.getElementById('storyPageNum').textContent.replace(' · ✓ Read', '') + ' · ✓ Read';
+  }
+}
+
+document.getElementById('newWordsBtn').onclick = openVocabGame;
+document.getElementById('vocabCloseBtn').onclick = closeVocabGame;
+
 /* ---------------- CELEBRATION OVERLAY ---------------- */
 const CONFETTI_COLORS = ['#E8546B','#FF8A3C','#FFCD3C','#7FCB6C','#3FBEEA','#9457E0','#FF6FA8'];
 
@@ -1379,7 +1622,7 @@ document.getElementById('playAgainBtn').onclick = startMatchGame;
 let mathRounds = [], mathIndex = 0, mathScore = 0, mathAdvanceTimer = null;
 const MATH_TOTAL_ROUNDS = 6;
 let mathMode = 'as'; // 'as' = add/subtract, 'tables' = times tables
-let selectedTables = new Set([2,3,4,5,6,7,8,9,10]);
+let selectedTables = new Set(); // empty by default: tapping a table means "practice only this one"
 
 function generateAddSubQuestion(){
   const isAdd = Math.random() < 0.6;
@@ -1406,10 +1649,14 @@ function generateTablesQuestion(){
   const a = tables[Math.floor(Math.random() * tables.length)];
   const b = Math.floor(Math.random() * 10) + 1; // 1 to 10
   const answer = a * b;
+  // Wrong options are always other multiples of the SAME table (a),
+  // so a child practicing "table of 2" only ever sees multiples of 2 as choices.
   const options = new Set([answer]);
-  while (options.size < 4) {
-    const delta = Math.floor(Math.random() * 7) - 3;
-    const cand = answer + delta * a || answer + delta;
+  let guard = 0;
+  while (options.size < 4 && guard < 40) {
+    guard++;
+    const otherB = Math.floor(Math.random() * 10) + 1;
+    const cand = a * otherB;
     if (cand >= 0 && !options.has(cand)) options.add(cand);
   }
   return { prompt: `${a} × ${b} = ?`, answer, options: shuffleArr([...options]) };
@@ -1421,17 +1668,26 @@ function generateMathQuestion(){
 
 /* Mode + table selection UI */
 const tableChipRow = document.getElementById('tableChipRow');
+const tableChips = {};
 for (let n = 2; n <= 10; n++) {
   const chip = document.createElement('button');
-  chip.className = 'table-chip selected';
+  chip.className = 'table-chip';
   chip.textContent = n;
   chip.dataset.n = n;
   chip.onclick = () => {
     if (selectedTables.has(n)) { selectedTables.delete(n); chip.classList.remove('selected'); }
     else { selectedTables.add(n); chip.classList.add('selected'); }
   };
+  tableChips[n] = chip;
   tableChipRow.appendChild(chip);
 }
+document.getElementById('selectAllTablesBtn').onclick = () => {
+  for (let n = 2; n <= 10; n++) { selectedTables.add(n); tableChips[n].classList.add('selected'); }
+};
+document.getElementById('clearAllTablesBtn').onclick = () => {
+  selectedTables.clear();
+  for (let n = 2; n <= 10; n++) tableChips[n].classList.remove('selected');
+};
 
 document.getElementById('mathModeAS').onclick = () => {
   mathMode = 'as';
@@ -1584,8 +1840,9 @@ document.getElementById('playAgainSilentBtn').onclick = startSilentGame;
 backBtn.onclick = goHome;
 shuffleBtn.onclick = () => {
   if (!currentStory) return;
-  showStory(getNextStory(currentStory.cat));
+  goToStory(getNextStory(currentStory.cat));
 };
+document.getElementById('prevStoryBtn').onclick = goToPreviousStory;
 readBtn.onclick = toggleRead;
 
 renderTiles();
