@@ -199,6 +199,7 @@
   }
   .story-text .word { transition: background .15s ease, border-radius .15s ease; padding: 1px 2px; }
   .story-text .word.active { background: #FFCD3C; border-radius: 6px; box-shadow: 0 0 0 2px #FFCD3C; }
+  .story-text .word.moral-word { font-weight: 800; }
 
   .actions { display: flex; gap: 12px; margin-top: 20px; }
   .action-btn {
@@ -637,6 +638,55 @@ const STORIES = [
     text:"Captain Lulu built a raft from wood and rope. She sailed across the lake to Coconut Island with her dog, Biscuit. The waves rocked the raft, but Lulu held the sail steady. When they landed, coconuts covered the beach. Lulu and Biscuit had a picnic, then sailed home just before the sun went down." },
   { cat:'adventure', title:"The Secret Cave",
     text:"Behind the waterfall, Zara found a secret cave that sparkled with crystals. She climbed carefully over the wet rocks with her flashlight. Deep inside, the walls glittered blue and purple like stars. She drew a little map so she could show her friends the way. It became their favorite secret place to explore." },
+  { cat:'adventure', title:"The Lost Compass",
+    image:"https://raw.githubusercontent.com/johnlewis9509-byte/Story/refs/heads/main/Lost.png",
+    text:"Aditya's compass shattered on the first day of his mountain trek, and his group panicked, wanting to turn back. Aditya remembered the position of the setting sun his grandfather had taught him and guided everyone using shadows and stars instead. Three days later, they reached the summit safely, cheering together. Aditya realized tools help, but courage and calm thinking matter more when things go wrong. Courage and a calm mind can guide you even when your tools fail." },
+  { cat:'adventure', title:"The River Crossing",
+    image:"https://raw.githubusercontent.com/johnlewis9509-byte/Story/refs/heads/main/River.png",
+    text:"A rushing river blocked the hikers' only path forward, and everyone feared the strong current. Meher suggested they cross by holding hands in a human chain, weakest in the middle, strongest at the ends. One by one, they crossed safely, supporting each other against the pull of the water. Alone, none of them could have made it. Together, the impossible crossing became simple. Teamwork turns impossible challenges into simple ones." },
+  { cat:'adventure', title:"Cave of Echoes",
+    image:"https://raw.githubusercontent.com/johnlewis9509-byte/Story/refs/heads/main/Cave.png",
+    text:"Vikram was terrified of the dark cave his friends dared him to explore, certain monsters lived inside. Shaking, he stepped in anyway, torch trembling in his hand. The only monster he found was his own echoing voice, bouncing off ancient walls glittering with crystals. He laughed at his fear and called his friends inside to see the beauty he'd almost missed by staying scared. Facing your fears often reveals beauty where you expected danger." },
+  { cat:'adventure', title:"The Mountain Promise",
+    image:"https://raw.githubusercontent.com/johnlewis9509-byte/Story/refs/heads/main/Mountain.png",
+    text:"Naina promised her sick grandmother she would bring back a rare mountain flower before winter. The climb was steep, her legs ached, and twice she wanted to quit. She remembered her promise each time and kept climbing, one slow step after another. She found the flower just as snow began to fall. Her grandmother's smile, seeing the flower, made every painful step worth it. A promise kept is worth every difficult step along the way." },
+  { cat:'adventure', title:"Island of Whispers",
+    image:"https://raw.githubusercontent.com/johnlewis9509-byte/Story/refs/heads/main/Island.png",
+    text:"Shipwrecked on a strange island, Kabir had no tools, no food, and no idea how to survive. Instead of despairing, he studied the island patiently, learning which plants were safe and how to catch fish with woven vines. Weeks later, a passing boat found him healthy and resourceful, not broken. Kabir realized that necessity had taught him skills he never knew he had inside him. Necessity often reveals strength and skill you didn't know you had." },
+  { cat:'adventure', title:"The Desert Star",
+    image:"https://raw.githubusercontent.com/johnlewis9509-byte/Story/refs/heads/main/Desert.png",
+    text:"Lost in the desert at night, Zara's caravan argued about which direction led home, wasting precious time. Zara stayed quiet, patiently watching the North Star rise steadily above the dunes. She pointed the group toward it, trusting the sky over panicked guesses. By dawn, familiar hills appeared on the horizon. Patience and trust in what she knew had guided them safely home. Patience and trust in what you know can guide you home." },
+  { cat:'adventure', title:"Bridge of Vines",
+    image:"https://raw.githubusercontent.com/johnlewis9509-byte/Story/refs/heads/main/Bridge.png",
+    text:"The old vine bridge swayed dangerously over the gorge, and Reyansh's younger cousin froze halfway across, too frightened to move. Reyansh crawled back onto the shaking bridge despite his own fear, speaking gently until his cousin found the courage to keep walking. They reached the other side together, hands still locked tight. Reyansh learned that real bravery means going back for someone scared. Real bravery means going back for someone who needs you." },
+  { cat:'adventure', title:"The Lantern Trail",
+    image:"https://raw.githubusercontent.com/johnlewis9509-byte/Story/refs/heads/main/Lantern.png",
+    text:"Ishaan got separated from his hiking group at dusk and could have lied about which trail he'd taken to seem less afraid. Instead, he honestly radioed his exact last-known location, even admitting he'd wandered off the marked path. Rescuers found him quickly because of his honest directions. Ishaan learned that telling the truth, even when embarrassing, is what truly keeps everyone safe. Honesty, even when embarrassing, is what keeps everyone safe." },
+  { cat:'adventure', title:"Storm on Silver Lake",
+    image:"https://raw.githubusercontent.com/johnlewis9509-byte/Story/refs/heads/main/Storm.png",
+    text:"A sudden storm capsized Ayaan's little sailboat far from shore, and panic rose in his chest as waves grew taller. He remembered his coach's words: breathe slowly, float, and wait. Ayaan calmed his racing heart, clung to the hull, and waited for the storm to pass rather than exhausting himself swimming blindly. Rescuers found him afloat and safe. Staying calm had saved his life. Staying calm in a crisis can save you when panic cannot." },
+  { cat:'adventure', title:"The Hidden Waterfall",
+    image:"https://raw.githubusercontent.com/johnlewis9509-byte/Story/refs/heads/main/Hidden.png",
+    text:"Priya heard rumors of a secret waterfall deep in the forest that no map showed. She spent weekends following streams uphill, patiently retracing wrong turns without giving up. When she finally found it, shimmering and untouched, she didn't boast to the village. Instead, she quietly led her tired grandmother there first, to see it before anyone else. Some discoveries are sweeter shared humbly. The sweetest discoveries are the ones we share humbly." },
+  { cat:'adventure', title:"Race to the Summit",
+    image:"https://raw.githubusercontent.com/johnlewis9509-byte/Story/refs/heads/main/Race.png",
+    text:"Dev was winning the mountain race easily when he found a rival climber, Suhas, injured on a narrow ledge. Stopping meant losing the race he had trained for all year. Dev didn't hesitate; he helped Suhas down safely, arriving last, long after everyone else. The village cheered loudest for Dev anyway. He learned that kindness earns a victory no trophy could ever measure. Kindness earns victories no trophy could ever measure." },
+  { cat:'adventure', title:"The Map with No End",
+    image:"https://raw.githubusercontent.com/johnlewis9509-byte/Story/refs/heads/main/Map.png",
+    text:"Sara's grandfather gave her an old, torn map leading to nowhere marked, just endless trails through forests and hills. Confused, she followed it anyway, expecting a hidden treasure at journey's end. There was none — only sunsets, new friends, and quiet rivers along the way. Sara realized her grandfather's map wasn't about a destination at all. The journey itself had been the treasure. Sometimes the journey itself is the treasure, not the destination." },
+  { cat:'adventure', title:"Jungle of a Thousand Steps",
+    image:"https://raw.githubusercontent.com/johnlewis9509-byte/Story/refs/heads/main/Jungle.png",
+    text:"Arnav's legs burned climbing the ancient jungle steps everyone said no child could finish. He fell twice, scraped his knees, and wanted to stop each time. But he remembered his father's words: count one step, not a thousand. Step by single step, Arnav reached the ancient temple at the top, exhausted but proud. Big goals become possible when broken into small steps. Big goals become possible when broken into small, steady steps." },
+  { cat:'adventure', title:"The Cliffhanger Rescue",
+    image:"https://raw.githubusercontent.com/johnlewis9509-byte/Story/refs/heads/main/TheCliffhanger.png",
+    text:"Tanvi watched a stranger's kite get tangled dangerously on a cliff edge, the boy climbing after it despite the risk. Without thinking of her own safety, she grabbed a rope and secured him just as loose rocks gave way beneath his feet. Neither of them knew each other before that moment. Tanvi learned that courage for a stranger matters just as much as for a friend. Courage shown for a stranger matters just as much as for a friend." },
+  { cat:'adventure', title:"Snowbound",
+    image:"https://raw.githubusercontent.com/johnlewis9509-byte/Story/refs/heads/main/Snowbound.png",
+    text:"A blizzard trapped Yuvraj's climbing team in a small tent for two freezing days with dwindling supplies. Fear and cold made tempers short, but Yuvraj kept everyone singing old songs and sharing warm memories to pass the time calmly. When rescue finally arrived, the team credited Yuvraj's steady spirit for keeping hope alive. Sometimes surviving together needs warmth of heart, not just body. Surviving together needs warmth of heart as much as warmth of body." },
+  { cat:'adventure', title:"The Whistling Canyon",
+    image:"https://raw.githubusercontent.com/johnlewis9509-byte/Story/refs/heads/main/Whistling.png",
+    text:"Legends said a canyon near Farah's village was cursed because of a strange whistling wind. Too scared to explore, villagers avoided it for years. Farah finally investigated and discovered the whistle was just wind through ancient rock formations, nothing magical at all. She mapped a safe trail through it, turning feared land into the village's favorite picnic spot. Curiosity had dissolved the curse. Curiosity can dissolve fears that superstition built up for years." },
+
 
   // FRIENDSHIP
   { cat:'friend', title:"Two Best Umbrellas",
@@ -885,6 +935,15 @@ function showStory(story){
 function renderStoryText(text){
   storyTextEl.innerHTML = '';
   let charPos = 0;
+
+  // Find the start position of the last sentence (the moral line) so it can be bolded.
+  const sentenceMatches = text.match(/[^.!?]+[.!?]+(\s|$)/g);
+  let moralStart = -1;
+  if (sentenceMatches && sentenceMatches.length > 1) {
+    const lastSentence = sentenceMatches[sentenceMatches.length - 1];
+    moralStart = text.lastIndexOf(lastSentence.trim());
+  }
+
   text.split(/(\s+)/).forEach(tok => {
     if (/^\s+$/.test(tok)) {
       storyTextEl.appendChild(document.createTextNode(tok));
@@ -892,6 +951,7 @@ function renderStoryText(text){
     } else if (tok.length) {
       const span = document.createElement('span');
       span.className = 'word';
+      if (moralStart !== -1 && charPos >= moralStart) span.classList.add('moral-word');
       span.textContent = tok;
       span.dataset.start = charPos;
       span.dataset.end = charPos + tok.length;
@@ -906,8 +966,16 @@ function goHome(){
 }
 
 /* ---------------- READ ALOUD ---------------- */
+let highlightTimer = null;
+let highlightWordIndex = 0;
+let highlightWords = [];
+let highlightRemainingMs = 0;
+let highlightWordStartedAt = 0;
+let highlightCurrentDuration = 0;
+
 function stopSpeaking(){
   if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  clearTimeout(highlightTimer);
   speechState = 'idle';
   readBtn.textContent = '🔊 Read to me';
   storyTextEl.querySelectorAll('.word.active').forEach(w => w.classList.remove('active'));
@@ -921,28 +989,44 @@ function pickBestVoice(lang){
     || null;
 }
 
+/* Estimated, timer-driven word highlighting.
+   This does NOT rely on the browser's speechSynthesis "onboundary" event,
+   which is unreliable (often never fires) on Android Chrome/WebView.
+   Instead, each word is highlighted for a duration estimated from its
+   length and the current speech rate, so highlighting works everywhere. */
+function highlightNextWord(rate){
+  highlightWords.forEach(w => w.classList.remove('active'));
+  if (highlightWordIndex >= highlightWords.length) return;
+
+  const w = highlightWords[highlightWordIndex];
+  w.classList.add('active');
+  w.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+
+  const charCount = w.textContent.length;
+  const msPerChar = 48 / rate;
+  let duration = Math.max(150, charCount * msPerChar);
+  if (/[.,!?;:]$/.test(w.textContent)) duration += 200;
+
+  highlightCurrentDuration = duration;
+  highlightWordStartedAt = Date.now();
+  highlightWordIndex++;
+  highlightTimer = setTimeout(() => highlightNextWord(rate), duration);
+}
+
 function startSpeaking(){
   const utter = new SpeechSynthesisUtterance(currentStory.text);
   utter.lang = currentStory.lang || 'en-US';
-  utter.rate = 0.82;   // normal, clear pace for a young reader
+  utter.rate = 0.68;   // slowed down for young/early readers
   utter.pitch = 1.0;
 
   const voice = pickBestVoice(utter.lang);
   if (voice) utter.voice = voice;
 
-  utter.onboundary = (e) => {
-    if (e.charIndex === undefined) return;
-    const words = storyTextEl.querySelectorAll('.word');
-    words.forEach(w => w.classList.remove('active'));
-    for (const w of words) {
-      const st = +w.dataset.start, en = +w.dataset.end;
-      if (e.charIndex >= st && e.charIndex < en) {
-        w.classList.add('active');
-        w.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-        break;
-      }
-    }
-  };
+  highlightWords = [...storyTextEl.querySelectorAll('.word')];
+  highlightWordIndex = 0;
+  clearTimeout(highlightTimer);
+
+  utter.onstart = () => highlightNextWord(utter.rate);
   utter.onend = () => stopSpeaking();
   utter.onerror = () => stopSpeaking();
 
@@ -961,10 +1045,15 @@ function toggleRead(){
     startSpeaking();
   } else if (speechState === 'speaking') {
     window.speechSynthesis.pause();
+    clearTimeout(highlightTimer);
+    highlightRemainingMs = Math.max(0, highlightCurrentDuration - (Date.now() - highlightWordStartedAt));
     speechState = 'paused';
     readBtn.textContent = '▶ Resume reading';
   } else if (speechState === 'paused') {
     window.speechSynthesis.resume();
+    highlightWordStartedAt = Date.now();
+    highlightCurrentDuration = highlightRemainingMs;
+    highlightTimer = setTimeout(() => highlightNextWord(0.68), highlightRemainingMs);
     speechState = 'speaking';
     readBtn.textContent = '⏸ Pause reading';
   }
@@ -972,6 +1061,7 @@ function toggleRead(){
 
 /* ---------------- COLORING PAD ---------------- */
 const COLOR_TEMPLATES = {
+  blank: { emoji:'📄', svg:`` },
   fox: { emoji:'🦊', svg:`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#2A2420" stroke-width="3" stroke-linejoin="round">
       <path d="M60 90 L35 40 L75 65 Z"/>
       <path d="M140 90 L165 40 L125 65 Z"/>
@@ -995,6 +1085,39 @@ const COLOR_TEMPLATES = {
       <path d="M70 120 L40 155 L70 145 Z"/>
       <path d="M130 120 L160 155 L130 145 Z"/>
       <path d="M85 130 L80 165 L100 155 L120 165 L115 130 Z"/>
+    </svg>` },
+  star: { emoji:'⭐', svg:`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#2A2420" stroke-width="3" stroke-linejoin="round">
+      <path d="M100 25 L118 78 L175 78 L129 111 L147 165 L100 132 L53 165 L71 111 L25 78 L82 78 Z"/>
+    </svg>` },
+  butterfly: { emoji:'🦋', svg:`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#2A2420" stroke-width="3" stroke-linejoin="round">
+      <path d="M100 60 Q60 20 30 45 Q10 65 40 95 Q65 115 100 90 Z"/>
+      <path d="M100 60 Q140 20 170 45 Q190 65 160 95 Q135 115 100 90 Z"/>
+      <path d="M100 90 Q65 120 45 150 Q35 168 55 172 Q80 170 100 130 Z"/>
+      <path d="M100 90 Q135 120 155 150 Q165 168 145 172 Q120 170 100 130 Z"/>
+      <path d="M100 55 L100 140" stroke-width="4"/>
+      <path d="M100 55 Q90 40 80 35" stroke-width="3"/>
+      <path d="M100 55 Q110 40 120 35" stroke-width="3"/>
+    </svg>` },
+  house: { emoji:'🏠', svg:`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#2A2420" stroke-width="3" stroke-linejoin="round">
+      <path d="M40 100 L100 50 L160 100" />
+      <rect x="55" y="100" width="90" height="70"/>
+      <rect x="88" y="130" width="24" height="40"/>
+      <rect x="65" y="112" width="20" height="20"/>
+      <rect x="115" y="112" width="20" height="20"/>
+      <rect x="90" y="55" width="14" height="20"/>
+    </svg>` },
+  sun: { emoji:'☀️', svg:`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#2A2420" stroke-width="3" stroke-linejoin="round">
+      <circle cx="100" cy="100" r="40"/>
+      <g stroke-linecap="round">
+        <line x1="100" y1="30" x2="100" y2="10"/>
+        <line x1="100" y1="170" x2="100" y2="190"/>
+        <line x1="30" y1="100" x2="10" y2="100"/>
+        <line x1="170" y1="100" x2="190" y2="100"/>
+        <line x1="50" y1="50" x2="36" y2="36"/>
+        <line x1="150" y1="50" x2="164" y2="36"/>
+        <line x1="50" y1="150" x2="36" y2="164"/>
+        <line x1="150" y1="150" x2="164" y2="164"/>
+      </g>
     </svg>` },
 };
 const PALETTE = ['#E8546B','#FF8A3C','#FFCD3C','#7FCB6C','#3FBEEA','#9457E0','#FF6FA8','#2A2420'];
